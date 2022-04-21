@@ -3,6 +3,7 @@ const app = express()
 const port = process.env.PORT || 5000
 const cors = require('cors')
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const ObjectId = require('mongodb').ObjectId
 
 
 // use middleware
@@ -30,6 +31,7 @@ async function run() {
         // const result = await userCollection.insertOne(user);
         // console.log(`User inserted with _id: ${result.insertedId}`);
 
+        // get users
         app.get('/user', async (req, res) => {
             const query = {}
             const cursor = userCollection.find(query)
@@ -45,7 +47,17 @@ async function run() {
             res.send(result)
         })
 
-    } finally {
+        // delete a user
+        app.delete('/user/:id', async (req, res) => {
+            const id = req.params.id
+            const query = { _id: ObjectId(id) }
+
+            const result = await userCollection.deleteOne(query)
+            res.send(result)
+        })
+
+    }
+    finally {
         //   await client.close();
     }
 }
