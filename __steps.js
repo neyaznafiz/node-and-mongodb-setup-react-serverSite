@@ -32,4 +32,13 @@
  * 3. on server: Create user POST method to recive data on the backend.
  * 4. on client side: set fetch with post, headers, body
  * 5. Make sure you return a json from the POST API
+ * -----------------------------------------------
+ * 
+ * LOAD Data to the client side
+ * -----------------------------
+ * 1. create get API on the server site
+ * 2. create a query object
+ * 3. collection.find (query)
+ * 4. cursor.toArray()
+ * 5. return the result
 */
