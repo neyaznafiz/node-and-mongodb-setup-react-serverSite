@@ -39,12 +39,35 @@ async function run() {
             res.send(users)
         })
 
+        app.get('/user/:id', async (req, res) => {
+            const id = req.params.id
+            const query = { _id: ObjectId(id) }
+            const result = await userCollection.findOne(query)
+            res.send(result)
+        })
+
         // POST User : add a new user
         app.post('/user', async (req, res) => {
             const newUser = req.body
             console.log('adding new user', newUser)
             const result = await userCollection.insertOne(newUser)
             res.send(result)
+        })
+
+        // update user
+        app.put('/user/:id', async (req, res) => {
+            const id = req.params.id
+            const updatedUser = req.body
+            const filter = { _id: ObjectId(id) }
+            const options = { upsert: true }
+            const updatedDoc = {
+                $set: {
+                    name: updatedUser.name,
+                    email: updatedUser.email
+                }
+            }
+            const resut = await userCollection.updateOne(filter, updatedDoc, options)
+            res.send(resut)
         })
 
         // delete a user
